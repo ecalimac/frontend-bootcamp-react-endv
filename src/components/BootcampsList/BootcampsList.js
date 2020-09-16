@@ -4,7 +4,7 @@ import SearchBar from "../SearchBar/SearchBar";
 
 import "./bootcamps-list.css";
 
-export default class BootcampsList extends Component {
+class BootcampsList extends Component {
   constructor() {
     super();
 
@@ -32,6 +32,14 @@ export default class BootcampsList extends Component {
     );
     return (
       <div className="container">
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <p>
+            <strong>Class component</strong>
+          </p>
+          <p>
+            <strong>- setState -</strong>
+          </p>
+        </div>
         <SearchBar
           placeholder="Search bootcamps by name"
           handleChange={(e) => this.setState({ searchField: e.target.value })}
@@ -45,3 +53,5 @@ export default class BootcampsList extends Component {
     );
   }
 }
+
+export default BootcampsList;

@@ -1,62 +1,32 @@
 import React, { Component, Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
-// import Parent from "./components/LifeCycleMethods/child-sibling-interaction/Parent";
-import Child from "./components/LifeCycleMethods/Child";
-// import BootcampsList from "./components/BootcampsList/BootcampsList";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <BootcampsList />
-//     </div>
-//   );
-// }
+//Components
+import BootcampsList from "./components/BootcampsList/BootcampsList";
+import Bootcamp from "./components/Bootcamp/Bootcamp";
+import Navigation from "./components/Navigation/Navigation";
+import BootcampListHooks from "./components/BootcampsList/hooks-version/BootcampsListHooks";
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      text: "Hello",
-      showChild: true,
-    };
-    console.log("constructor - parent (App.js)");
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount! - parent (App.js)");
-  }
-
-  componentDidUpdate() {
-    console.log("componentDidUpdate! - parent (App.js)");
-  }
-
-  componentWillUnmount() {
-    console.log("componentWillUnmount! - parent (App.js)");
+    this.state = {};
   }
   render() {
-    console.log("render - parent (App.js)");
-    console.log(this.state, "parent state (App.js)");
     return (
-      // <Fragment>
-      //   <Parent />
-      // </Fragment>
       <Fragment>
-        <button
-          onClick={() =>
-            this.setState((state) => ({ showChild: !state.showChild }))
-          }
-        >
-          Toggle state (showChild)
-        </button>
-
-        <button
-          onClick={() =>
-            this.setState((state) => ({ text: state.text + " + world" }))
-          }
-        >
-          Update state (modify text)
-        </button>
-        {this.state.showChild ? <Child text={this.state.text} /> : null}
+        <div style={{ margin: 30 }}>
+          <Navigation />
+          <Switch>
+            <Route exact path="/" component={BootcampsList}></Route>
+            <Route
+              exact
+              path="/bootcamps-with-hooks/"
+              component={BootcampListHooks}
+            ></Route>
+            <Route exact path="/bootcamps/:id" component={Bootcamp}></Route>
+          </Switch>
+        </div>
       </Fragment>
     );
   }
