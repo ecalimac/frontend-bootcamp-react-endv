@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import Bootcamp from "../Bootcamp/Bootcamp";
-import SearchBar from "../SearchBar/SearchBar";
+import axios from "axios";
 
 import "./bootcamps-list.css";
+
+import Bootcamp from "../Bootcamp/Bootcamp";
+import SearchBar from "../SearchBar/SearchBar";
+import Spinner from "../Spinner/Spinner";
 
 class BootcampsList extends Component {
   constructor() {
@@ -10,27 +13,32 @@ class BootcampsList extends Component {
 
     this.state = {
       searchField: "",
-      bootcamps: [
-        { id: 1, name: "Frontend Bootcamp", description: "Frontend Bootcamp" },
-        {
-          id: 2,
-          name: "Backend Bootcamp",
-          description: "Backend Bootcamp",
-        },
-        {
-          id: 3,
-          name: "ML Bootcamp",
-          description: "ML Bootcamp",
-        },
-      ],
+      isLoading: false,
+      bootcamps: [{ id: 1, name: "" }],
     };
   }
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    axios
+      .get("http://www.endava-bootcamp.com/api/v1/bootcamps/", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+      .then((response) => {
+        console.log(response, "raspuns");
+        this.setState({ bootcamps: response.data.data, isLoading: false });
+      });
+  }
   render() {
-    const { bootcamps, searchField } = this.state;
+    const { bootcamps, searchField, isLoading } = this.state;
     const filteredBootcamps = bootcamps.filter((bootcamp) =>
       bootcamp.name.toLowerCase().includes(searchField.toLocaleLowerCase())
     );
-    return (
+    return isLoading ? (
+      <Spinner />
+    ) : (
+      // <div>loading gif</div>
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <p>

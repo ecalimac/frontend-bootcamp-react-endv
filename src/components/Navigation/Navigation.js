@@ -10,10 +10,13 @@ const Navigation = () => {
           <Link to="/">Bootcamps Class Component</Link>
         </li>
         <li>
+          <Link to="/bootcamps/add">Add new bootcamp</Link>
+        </li>
+        {/* <li>
           <Link to="/bootcamps-with-hooks">
             Bootcamps - Functional Component
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );
