@@ -7,6 +7,7 @@ const FormHtml = ({
   handleChange,
   handleBlur,
   handleSubmit,
+  errorsBeforeSubmit,
 }) => {
   // const handleChange = (event) => {
   //   console.log(event, "event");
@@ -29,7 +30,8 @@ const FormHtml = ({
               required
             />
           </label>
-          {touched.firstName && errors.firstName}
+          {(touched.firstName || errorsBeforeSubmit.firstName) &&
+            errors.firstName}
         </div>
 
         <div>
@@ -47,7 +49,7 @@ const FormHtml = ({
               required
             />
           </label>
-          {touched.lastName && errors.lastName}
+          {(touched.lastName || errorsBeforeSubmit.lastName) && errors.lastName}
         </div>
         <div>
           <label htmlFor="email">
@@ -64,7 +66,7 @@ const FormHtml = ({
               required
             />
           </label>
-          {touched.email && errors.email}
+          {(touched.email || errorsBeforeSubmit.email) && errors.email}
         </div>
         <div>
           <label htmlFor="age">
@@ -83,7 +85,7 @@ const FormHtml = ({
             />
           </label>
 
-          {touched.age && errors.age}
+          {(touched.age || errorsBeforeSubmit.age) && errors.age}
         </div>
 
         <div style={{ marginTop: 30 }}>

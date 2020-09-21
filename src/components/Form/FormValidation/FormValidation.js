@@ -5,6 +5,7 @@ const FormValidation = ({ initialValues, validate }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [errorsBeforeSubmit, setErrorsBeforeSubmit] = useState({});
 
   // useEffect(() => {
   //   console.log(values, errors, touched);
@@ -17,6 +18,8 @@ const FormValidation = ({ initialValues, validate }) => {
       errors,
       " :touched,",
       touched,
+      " :errorsBeforeSubmit",
+      errorsBeforeSubmit,
       "---state values"
     );
   });
@@ -59,7 +62,48 @@ const FormValidation = ({ initialValues, validate }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event, "submit event");
+    // console.log(event, "submit event");
+
+    const formElements = Array.from(event.target);
+
+    // first try: filter form elements that contain ids
+    // const inputs = formElements.filter((el) => el.id !== "");
+    // console.log(inputs);
+
+    // second try: filter form elements by type
+    const inputs = formElements.filter(
+      (el) => el.type === "number" || el.type === "text"
+    );
+    // console.log(inputs);
+    const validateInput = (el) => {
+      const error = validate[el.id](el.value);
+      return error;
+    };
+    const inputsWithErrors = inputs
+      .filter((input) => validateInput(input))
+      .map((inputt) => [inputt.id, validateInput(inputt)]);
+    console.log(inputsWithErrors, "input with errors");
+
+    const errorsBeforeSubmit = Object.fromEntries(inputsWithErrors);
+    console.log(errorsBeforeSubmit, "errors before submit");
+
+    setErrorsBeforeSubmit({
+      ...errorsBeforeSubmit,
+    });
+    setErrors({
+      ...errors,
+      ...errorsBeforeSubmit,
+    });
+    console.log(errorsBeforeSubmit);
+    console.log(Object.entries(errorsBeforeSubmit).length);
+
+    // //if errors object is not empty...
+    // if (Object.entries(errors).length !== 0) {
+    //   setShowErrors(true);
+    //   // alert("Your form is not valid");
+    // } else if (Object.entries(errors).length === 0) {
+    //   alert("Congrats! You can send the form!");
+    // }
   };
   return (
     <>
@@ -70,6 +114,7 @@ const FormValidation = ({ initialValues, validate }) => {
         handleBlur={handleBlur}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        errorsBeforeSubmit={errorsBeforeSubmit}
       />
     </>
   );

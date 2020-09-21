@@ -56,7 +56,7 @@ const initialValues = {
   firstName: "Ana5",
   lastName: "Popescu",
   age: 5,
-  email: "andraa@email.com",
+  email: "andraa",
 };
 
 const FormParent = () => {
