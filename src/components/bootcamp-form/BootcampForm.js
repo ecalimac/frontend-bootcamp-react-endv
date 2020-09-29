@@ -23,6 +23,13 @@ const BootcampForm = React.memo((props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     console.log(event, "submit event");
+    props.onAddBootcamp({
+      name: bootcampName,
+      email: bootcampEmail,
+      description: bootcampDescription,
+      phone: bootcampPhone,
+      website: bootcampWebsite,
+    });
   };
   return (
     <div>

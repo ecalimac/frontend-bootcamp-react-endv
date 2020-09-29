@@ -27,10 +27,27 @@ const BootcampsRouteComponent = () => {
         setBootcamps(bootcampsFromServer);
       });
   }, []);
-  //Nota: [] gol dat ca dependinta la useEffect face ca useEffect sa se comporte ca si componentDidMount
+  //Nota: [empty] dat ca dependinta la useEffect face ca useEffect sa se comporte ca si componentDidMount
+  const addBootcamp = (bootcamp) => {
+    fetch("https://bootcamp-a8786.firebaseio.com/bootcamps.json", {
+      method: "POST",
+      body: JSON.stringify(bootcamp),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        setBootcamps((bootcamps) => [
+          ...bootcamps,
+          { ...bootcamp, id: data.name },
+        ]);
+      });
+  };
   return (
     <div>
-      <BootcampForm />
+      <BootcampForm onAddBootcamp={addBootcamp} />
       <Search />
       <BootcampsList bootcamps={bootcamps} />
     </div>
