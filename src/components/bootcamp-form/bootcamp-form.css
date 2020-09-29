@@ -1,0 +1,14 @@
+.form-control {
+  margin-bottom: 1rem;
+}
+.form-control label {
+  margin-right: 1rem;
+}
+
+button {
+  background-color: #a0262c;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  color: honeydew;
+  font-weight: bold;
+}
