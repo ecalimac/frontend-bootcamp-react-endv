@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import BootcampForm from "../bootcamp-form/BootcampForm";
 import BootcampsList from "../bootcamps-list/BootcampsList";
 import Search from "../search/Search";
@@ -45,10 +45,17 @@ const BootcampsRouteComponent = () => {
         ]);
       });
   };
+
+  // const onSearchHandler = (filteredBootcamps) => {
+  //   setBootcamps(filteredBootcamps);
+  // };
+  const onSearchHandler = useCallback((filteredBootcamps) => {
+    setBootcamps(filteredBootcamps);
+  }, []);
   return (
     <div>
       <BootcampForm onAddBootcamp={addBootcamp} />
-      <Search />
+      <Search onSearchBootcampLoaded={onSearchHandler} />
       <BootcampsList bootcamps={bootcamps} />
     </div>
   );
