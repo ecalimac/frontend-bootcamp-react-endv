@@ -5,7 +5,12 @@ const BootcampsList = (props) => {
     <section>
       <h1>Bootcamps Loaded</h1>
       <ul>
-        {props.bootcamps.map(bootcamp => (<li key={bootcamp.id}>{bootcamp.name}</li>))}
+        {props.bootcamps.map(bootcamp => (
+          // <li key={bootcamp.id} onClick={e => props.onRemoveBootcamp(bootcamp.id, e)}>
+          <li key={bootcamp.id} onClick={props.onRemoveBootcamp.bind(this, bootcamp.id)}>
+            {bootcamp.name}
+          </li>
+        ))}
       </ul>
     </section>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "../card/Card";
+import Spinner from "../spinner/Spinner";
 import "./bootcamp-form.css";
 
 const BootcampForm = React.memo((props) => {
@@ -87,6 +88,7 @@ const BootcampForm = React.memo((props) => {
           </div>
           <div className="bootcamps-form__actions">
             <button type="submit">Add bootcamp</button>
+            {props.loading && <Spinner />}
           </div>
         </form>
       </Card>

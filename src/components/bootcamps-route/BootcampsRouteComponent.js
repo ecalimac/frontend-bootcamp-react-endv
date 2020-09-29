@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import BootcampForm from "../bootcamp-form/BootcampForm";
 import BootcampsList from "../bootcamps-list/BootcampsList";
+import ErrorModal from "../error-modal/ErrorModal";
 import Search from "../search/Search";
 
 const BootcampsRouteComponent = () => {
   const [bootcamps, setBootcamps] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetch("https://bootcamp-a8786.firebaseio.com/bootcamps.json")
@@ -29,6 +32,7 @@ const BootcampsRouteComponent = () => {
   }, []);
   //Nota: [empty] dat ca dependinta la useEffect face ca useEffect sa se comporte ca si componentDidMount
   const addBootcamp = (bootcamp) => {
+    setIsLoading(true);
     fetch("https://bootcamp-a8786.firebaseio.com/bootcamps.json", {
       method: "POST",
       body: JSON.stringify(bootcamp),
@@ -36,7 +40,10 @@ const BootcampsRouteComponent = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        setIsLoading(false);
+        return response.json()
+      })
       .then((data) => {
         // console.log(data);
         setBootcamps((bootcamps) => [
@@ -46,17 +53,40 @@ const BootcampsRouteComponent = () => {
       });
   };
 
+
   // const onSearchHandler = (filteredBootcamps) => {
   //   setBootcamps(filteredBootcamps);
   // };
   const onSearchHandler = useCallback((filteredBootcamps) => {
     setBootcamps(filteredBootcamps);
   }, []);
+
+  const onRemoveBootcamp = (id) => {
+    setIsLoading(true);
+    fetch(`https://bootcamp-a8786.firebaseio.com/bootcamps/${id}.json`, {
+      method: "DELETE",
+    }).then((response) => {
+      setIsLoading(false);
+      // console.log(response, "delete response");
+      setBootcamps((prevBootcamp) =>
+        prevBootcamp.filter((bootcamp) => bootcamp.id !== id)
+      );
+    }).catch((error) => {
+      setIsLoading(false);
+      console.log(error, "eroare");
+      setError("Something went wrong");
+    });
+  }
+  const clearError = () => {
+    setError(null)
+  }
+
   return (
     <div>
-      <BootcampForm onAddBootcamp={addBootcamp} />
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      <BootcampForm loading={isLoading} onAddBootcamp={addBootcamp} />
       <Search onSearchBootcampLoaded={onSearchHandler} />
-      <BootcampsList bootcamps={bootcamps} />
+      <BootcampsList bootcamps={bootcamps} onRemoveBootcamp={onRemoveBootcamp} />
     </div>
   );
 };
