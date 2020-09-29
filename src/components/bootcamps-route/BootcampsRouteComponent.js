@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useCallback, useReducer, useState } from "react";
 import BootcampForm from "../bootcamp-form/BootcampForm";
 import BootcampsList from "../bootcamps-list/BootcampsList";
 import ErrorModal from "../error-modal/ErrorModal";
@@ -18,13 +18,31 @@ const bootcampReducer = (currentBootcamps, action) => {
   }
 }
 
+const httpReducer = (currentHttpState, action) => {
+  switch (action.type) {
+    case 'SEND':
+      return { isLoading: true, error: null };
+    case 'RESPONSE':
+      return { ...currentHttpState, isLoading: false };
+    case 'ERROR':
+      return { isLoading: false, error: action.errorMessage };
+    case 'CLEAR':
+      return { ...currentHttpState, error: null }
+    default:
+      throw new Error('error');
+  }
+}
 
 const BootcampsRouteComponent = () => {
   // const [bootcamps, setBootcamps] = useState([]);
   // useReducer is similar to useState; it receives like parameters the reducer and initial state 
   const [bootcamps, dispatchBootcamps] = useReducer(bootcampReducer, [])
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState('');
+  const [httpState, dispatchHttp] = useReducer(httpReducer, {
+    isLoading: false,
+    error: ''
+  })
 
   // Note: Actually, we don't need it beacause we make a fetch request in Search even when the searchfield input is empty
   // useEffect(() => {
@@ -50,7 +68,8 @@ const BootcampsRouteComponent = () => {
   // }, []);
   // //Nota: [empty] dat ca dependinta la useEffect face ca useEffect sa se comporte ca si componentDidMount
   const addBootcamp = (bootcamp) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatchHttp({ type: 'SEND' });
     fetch("https://bootcamp-a8786.firebaseio.com/bootcamps.json", {
       method: "POST",
       body: JSON.stringify(bootcamp),
@@ -59,7 +78,8 @@ const BootcampsRouteComponent = () => {
       },
     })
       .then((response) => {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatchHttp({ type: 'RESPONSE' });
         return response.json()
       })
       .then((data) => {
@@ -83,11 +103,13 @@ const BootcampsRouteComponent = () => {
   }, []);
 
   const onRemoveBootcamp = (id) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatchHttp({ type: 'SEND' })
     fetch(`https://bootcamp-a8786.firebaseio.com/bootcamps/${id}.json`, {
       method: "DELETE",
     }).then((response) => {
-      setIsLoading(false);
+      // setIsLoading(false);
+      dispatchHttp({ type: 'RESPONSE' });
       // console.log(response, "delete response");
       // setBootcamps((prevBootcamp) =>
       //   prevBootcamp.filter((bootcamp) => bootcamp.id !== id)
@@ -95,19 +117,21 @@ const BootcampsRouteComponent = () => {
       dispatchBootcamps({ type: 'DELETE', id });
 
     }).catch((error) => {
-      setIsLoading(false);
-      console.log(error, "eroare");
-      setError("Something went wrong");
+      // setIsLoading(false);
+      // console.log(error, "eroare");
+      // setError("Something went wrong");
+      dispatchHttp({ type: 'ERROR', errorMessage: "Something went wrong" })
     });
   }
   const clearError = () => {
-    setError(null)
+    // setError(null);
+    dispatchHttp({ type: 'CLEAR' });
   }
 
   return (
     <div>
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
-      <BootcampForm loading={isLoading} onAddBootcamp={addBootcamp} />
+      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
+      <BootcampForm loading={httpState.isLoading} onAddBootcamp={addBootcamp} />
       <Search onSearchBootcampLoaded={onSearchHandler} />
       <BootcampsList bootcamps={bootcamps} onRemoveBootcamp={onRemoveBootcamp} />
     </div>
