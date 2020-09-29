@@ -3,6 +3,8 @@ import BootcampForm from "../bootcamp-form/BootcampForm";
 import BootcampsList from "../bootcamps-list/BootcampsList";
 import Search from "../search/Search";
 
+import './bootcamps-route-component.css';
+
 const BootcampsRouteComponent = () => {
   const [bootcamps, setBootcamps] = useState([]);
 
@@ -53,7 +55,7 @@ const BootcampsRouteComponent = () => {
     setBootcamps(filteredBootcamps);
   }, []);
   return (
-    <div>
+    <div className="bootcamps-route-component">
       <BootcampForm onAddBootcamp={addBootcamp} />
       <Search onSearchBootcampLoaded={onSearchHandler} />
       <BootcampsList bootcamps={bootcamps} />
