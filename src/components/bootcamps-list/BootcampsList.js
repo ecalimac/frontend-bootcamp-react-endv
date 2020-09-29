@@ -5,7 +5,7 @@ const BootcampsList = (props) => {
     <section>
       <h1>Bootcamps Loaded</h1>
       <ul>
-        <li>first bootcamp from the list</li>
+        {props.bootcamps.map(bootcamp => (<li key={bootcamp.id}>{bootcamp.name}</li>))}
       </ul>
     </section>
   );
