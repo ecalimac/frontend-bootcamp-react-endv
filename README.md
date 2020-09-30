@@ -18,9 +18,8 @@ The project can be run with
 
 - `npm start`
 
-The project can be viewed in the browser at
-
-- [http://localhost:3000](http://localhost:3000)
+To access each course topic you have to navigate trough branches
+Example: for Course1 run 'git checkout Course1'
 
 ## Course 1 
 - initialize a new react app with npx
