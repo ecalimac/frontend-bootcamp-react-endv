@@ -3,12 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
+import AuthContextProvider from "./components/context/AuthContext";
 
 ReactDOM.render(
-  <BrowserRouter>
+  // <BrowserRouter>
+  <AuthContextProvider>
     <App />
-  </BrowserRouter>,
+  </AuthContextProvider>,
+  // </BrowserRouter>,
   document.getElementById("root")
 );
 
