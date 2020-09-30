@@ -20,7 +20,7 @@ The project can be run with
 
 To access each course topic you have to navigate trough branches.
 
-Example: for Course1 run 
+Example: for Course 1 run 
 - `git checkout Course1`
 
 ## Course 1 
