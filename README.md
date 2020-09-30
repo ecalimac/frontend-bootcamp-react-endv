@@ -29,7 +29,7 @@ The project can be viewed in the browser at
 - JSX
 - functional vs. class components
 - state and setState 
-**Useful reminder: due to setState asynchronicity we can lookup for the new state with a 2nd parameter( a callback function)in setState passing props
+- *** Useful reminder: due to setState asynchronicity we can lookup for the new state with a 2nd parameter( a callback function)in setState passing props
 
 
 ![screenshot #1](public/readme-assets/course1.png)
@@ -40,7 +40,7 @@ The project can be viewed in the browser at
 - https://projects.wojtekmaj.pl/-react-lifecycle-methods-diagram/
 - Parent - Child interaction
 - Child - Sibling interaction
-**Useful Reminder:  for a ‘ghost’ node we can use either <Fragment></Fragment> or … <> </>
+- *** Useful Reminder:  for a ‘ghost’ node we can use either Fragment or … <> </>
 
 ![screenshot #2](public/readme-assets/course2.png)
 ![screenshot #3](public/readme-assets/course2.1.png)
@@ -72,4 +72,5 @@ The project can be viewed in the browser at
 
 - Hooks: useReducer
 - ContextApi
-![screenshot #7](public/readme-assets/Course6-ContextAPI.png)
+
+![screenshot #7](public/readme-assets/Course6.png)
